@@ -8,21 +8,21 @@ Voodoo.Module = Voodoo.App = (function(Voodoo, $) {
 			initializer: function() {}
 		},
 		extend: function(obj) {
-			_utils.chkAarg.isNotUndefined(obj);
+			_utils.chkAarg.isNotUndefined(obj, 'Module.extend');
 			var extended = obj.extended;
 			$.extend(this, obj);
 			if (extended) extended(this);
 			return this;
 		},
 		include: function(obj) {
-			_utils.chkAarg.isNotUndefined(obj);
+			_utils.chkAarg.isNotUndefined(obj, Module.include);
 			var included = obj.included;
 			$.extend(this.prototype, obj);
 			if (included) included(this);
 			return this;
 		},
 		proxy: function(func) {
-			_utils.chkAarg.isNotUndefined(func);
+			_utils.chkAarg.isNotUndefined(func, 'Module.proxy');
 			var localScope = this;
 			return (function() {
 				func.apply(localScope, arguments);

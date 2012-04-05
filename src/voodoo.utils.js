@@ -2,25 +2,29 @@ Voodoo.utils = (function() {
 	var utils = {
 		chkAarg: {}
 	},
-	_undefined;
-	utils.chkAarg.isNotFalsy = function(obj) {
+	_undefined,
+	throwError;
+	throwError = function(msg) {
+		throw msg;
+	}
+	utils.chkAarg.isNotFalsy = function(obj, msg) {
 		if(!obj)
-			throw 'Argument cannot be falsy';
+			throwError((msg) ? 'Argument cannot be falsy : ' + msg : 'Argument cannot be falsy');
 	};
 
-	utils.chkAarg.isNotUndefined = function(obj) {
+	utils.chkAarg.isNotUndefined = function(obj, msg) {
 		if(obj === _undefined)
-			throw 'Argument cannot be undefined';
+			throwError((msg) ? 'Argument cannot be undefined : ' + msg : 'Argument cannot be undefined');
 	};
 
-	utils.chkAarg.isNotEmpty = function(obj) {
+	utils.chkAarg.isNotEmpty = function(obj, msg) {
 		if(obj === '')
-			throw 'Argument cannot be empty';
+			throwError((msg) ? 'Argument cannot be empty : ' + msg : 'Argument cannot be empty');
 	};
 
-	utils.chkAarg.isFunction = function(obj) {
+	utils.chkAarg.isFunction = function(obj, msg) {
 		if(typeof obj !== 'function')
-			throw 'Argument must be a function';
+			throwError((msg) ? 'Argument must be a function : ' + msg : 'Argument must be a function');
 	};
 
 	utils.makeArray = function(args){
