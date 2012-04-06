@@ -86,6 +86,12 @@ Voodoo.Model = (function($, Voodoo) {
       result.newRecord = this.newRecord;
       return result;
     },
+    copy: function() {
+      var c = {};
+      for(var name in this)
+        c[name] = this[name];
+      return c;
+    },
     create: function() {
       if(!this.id) this.id = Math.guid();
       this.newRecord = false;
