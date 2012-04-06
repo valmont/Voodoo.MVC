@@ -5,15 +5,6 @@ Voodoo.Model = (function($, Voodoo) {
     created: function(sub) {
       this.records = {};
       this.attributes = [];
-      this.subscribe("create",  this.proxy(function(record) { 
-        this.publish("change", "create", record);
-      }));
-      this.subscribe("update",  this.proxy(function(record) { 
-        this.publish("change", "update", record);
-      }));
-      this.subscribe("destroy", this.proxy(function(record) { 
-        this.publish("change", "destroy", record);
-      }));
     },
     generateIds: false,
     find: function(id) {
