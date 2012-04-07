@@ -89,7 +89,8 @@ Voodoo.Model = (function($, Voodoo) {
     copy: function() {
       var c = {};
       for(var name in this)
-        c[name] = this[name];
+      	if(this.hasOwnProperty(name) && name !== 'parent')
+          c[name] = this[name];
       return c;
     },
     create: function() {
@@ -113,6 +114,18 @@ Voodoo.Model = (function($, Voodoo) {
     },
     publish: function(){
       return this.parent.publish.apply(this.parent, arguments);
+    },
+    post: function(url, callback) {
+      Voodoo.utils.chkAarg.isNotUndefined(url, 'Model.post');
+      this.ajax(url, callback, 'post');
+    },
+    get: function(url, callback) {
+      Voodoo.utils.chkAarg.isNotUndefined(url, 'Model.post');
+      this.ajax(url, callback, 'get');
+    },
+    ajax: function(url, callback, method) {
+      var func = callback ? this.proxy(callback) : callback;
+      $[method](url, this.copy(), func);
     }
   });
   return Model;
