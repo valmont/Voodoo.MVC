@@ -47,7 +47,7 @@ Voodoo.Module = Voodoo.App = (function(Voodoo, $) {
       var initance = Object.create(this.prototype);
       initance.parent = this;
       initance.initializer.apply(initance, arguments);
-          initance.init.apply(initance, arguments);
+      initance.init.apply(initance, arguments);
       return initance;
     }
   };

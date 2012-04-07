@@ -5,7 +5,10 @@ Voodoo.Controller = Voodoo.App = (function(Voodoo, $) {
     initializer: function(options) {
       if(this.root) this.root = $(this.root);
       if(options) {
-        this.root = this.root || (options.root) ? $(options.root) : $('body');
+        this.root = this.root || ((options.root) ? $(options.root) : $('body'));
+        
+        for (var key in options)
+          this[key] = options[key];
       }
       //set
       if ( !this.events ) this.events = this.parent.events;
