@@ -23,12 +23,12 @@ Voodoo.Module = Voodoo.App = (function(Voodoo, $) {
       if (included) included.apply(this);
       return this;
     },
-    proxy: function(func, data) {
+    proxy: function(func) {
       _utils.chkAarg.isNotUndefined(func);
       var localScope = this;
       return (function() {
         var args = _utils.makeArray(arguments);
-        if(data) args.push(data);
+        if(args.length > 0 && args[0].target !== 'undefined') args.push($(args[0].target));
         func.apply(localScope, args);
       });
     },
