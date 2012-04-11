@@ -1,5 +1,5 @@
 Voodoo.Module = Voodoo.App = (function(Voodoo, $) {
-  var Module, _utils = Voodoo.utils;
+  var Module, _utils = Voodoo.utils, moduleKeywords = ["included", "extended"];;
   Module = {
     inherited: function() {},
     created: function() {},
@@ -7,25 +7,29 @@ Voodoo.Module = Voodoo.App = (function(Voodoo, $) {
       init: function() {},
       initializer: function() {}
     },
-    extend: function(obj) {
-      _utils.chkAarg.isNotUndefined(obj, 'Module.extend');
+    extend: function(obj){
+      for(var key in obj)
+        if (moduleKeywords.indexOf(key) == -1)
+          this[key] = obj[key];
       var extended = obj.extended;
-      $.extend(this, obj);
-      if (extended) extended(this);
+      if (extended) extended.apply(this);
       return this;
     },
-    include: function(obj) {
-      _utils.chkAarg.isNotUndefined(obj, Module.include);
+    include: function(obj){
+      for(var key in obj)
+        if (moduleKeywords.indexOf(key) == -1)
+          this.prototype[key] = obj[key];
       var included = obj.included;
-      $.extend(this.prototype, obj);
-      if (included) included(this);
+      if (included) included.apply(this);
       return this;
     },
-    proxy: function(func) {
-      _utils.chkAarg.isNotUndefined(func, 'Module.proxy');
+    proxy: function(func, data) {
+      _utils.chkAarg.isNotUndefined(func);
       var localScope = this;
       return (function() {
-        func.apply(localScope, arguments);
+        var args = _utils.makeArray(arguments);
+        if(data) args.push(data);
+        func.apply(localScope, args);
       });
     },
     proxyAll: function(){
@@ -38,7 +42,7 @@ Voodoo.Module = Voodoo.App = (function(Voodoo, $) {
       obj.parent = this;
       obj.prototype = obj.fn = Object.create(this.prototype);
       if (include) obj.include(include);
-          if (extend)  obj.extend(extend);
+      if (extend)  obj.extend(extend);
       obj.created();
       this.inherited(obj);
       return obj;
