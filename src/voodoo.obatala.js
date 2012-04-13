@@ -6,7 +6,7 @@ Voodoo.Obatala = (function(Voodoo, d, w) {
       for (var i=0; i < args.length; i++) this.add(args[i]);
     },
     add: function(controller) {
-      this.subscribe('change', function(current) {
+      this.subscribe('changeState', function(current) {
         if(controller == current)
           controller.activate();
         else
@@ -14,7 +14,7 @@ Voodoo.Obatala = (function(Voodoo, d, w) {
       });
       controller.active = this.proxy(function() {
         if (controller.pageLoad) controller.pageLoad();
-        this.publish('change', controller);
+        this.publish('changeState', controller);
       });
     }
   });

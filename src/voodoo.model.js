@@ -1,10 +1,19 @@
 Voodoo.Model = (function($, Voodoo) {
-  var Model = Voodoo.Module.base();
+  var Model = Voodoo.Module.base(), _utils = Voodoo.utils;
   Model.extend(Voodoo.Events);
   Model.extend({
     created: function(sub) {
       this.records = {};
       this.attributes = [];
+      this.subscribe("create",  this.proxy(function(record){ 
+        this.publish("change", "create", record);
+      }));
+      this.subscribe("update",  this.proxy(function(record){ 
+        this.publish("change", "update", record);
+      }));
+      this.subscribe("destroy", this.proxy(function(record){ 
+        this.publish("change", "destroy", record);
+      }));
     },
     generateIds: false,
     find: function(id) {
@@ -12,6 +21,35 @@ Voodoo.Model = (function($, Voodoo) {
       var entity = this.records[id];
       if(!entity) throw 'Entity not found with id ' + id;
       return entity.clone();
+    },
+    first: function(){
+      var record = this.recordsValues()[0];
+      return(record && record.clone());
+    },
+    last: function(){
+      var values = this.recordsValues()
+      var record = values[values.length - 1];
+      return(record && record.clone());
+    },
+    all: function(){
+      return this.cloneArray(this.recordsValues());
+    },
+    sync: function(callback){
+      this.subscribe("change", callback);
+    },
+    fetch: function(callback){
+      callback ? this.subscribe("fetch", callback) : this.publish("fetch");
+    },
+    populate: function(items) {
+      //clear existing items
+      this.records = {};
+      var that = this, r;
+      _utils.each(items, function(item, i) {
+        r = that.init(item);
+        r.newRecord = false;
+        that.records[r.id] = r;
+      });
+
     },
     configure: function() {
       var attributes, name;
@@ -27,6 +65,18 @@ Voodoo.Model = (function($, Voodoo) {
       var record = this.init(atts);
       record.save();
       return record;
+    },
+    recordsValues: function(){
+      var result = [];
+      for (var key in this.records)
+        result.push(this.records[key]);
+      return result;
+    },
+    cloneArray: function(array){
+      var result = [];
+      for (var i=0; i < array.length; i++)
+        result.push(array[i].dup());
+      return result;
     }
   });
   Model.include({
@@ -49,6 +99,9 @@ Voodoo.Model = (function($, Voodoo) {
       }
       result.id = this.id;
       return result;
+    },
+    toJSON: function() {
+      return (this.attributes());
     },
     destroy: function() {
       this.publish("beforeDestroy", this);
