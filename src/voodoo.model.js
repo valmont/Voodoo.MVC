@@ -81,7 +81,7 @@ Voodoo.Model = (function($, Voodoo) {
   });
   Model.include({
     newRecord: true,
-    mopdel: true,
+    model: true,
     validate: function() {},
     isValid: function() {},
     init: function(atts) {
@@ -139,13 +139,6 @@ Voodoo.Model = (function($, Voodoo) {
       result.newRecord = this.newRecord;
       return result;
     },
-    copy: function() {
-      var c = {};
-      for(var name in this)
-      	if(this.hasOwnProperty(name) && name !== 'parent')
-          c[name] = this[name];
-      return c;
-    },
     create: function() {
       if(!this.id) this.id = Math.guid();
       this.newRecord = false;
@@ -177,8 +170,16 @@ Voodoo.Model = (function($, Voodoo) {
       this.ajax(url, callback, 'get');
     },
     ajax: function(url, callback, method) {
-      var func = callback ? this.proxy(callback) : callback;
-      $[method](url, this.copy(), func);
+      var func = callback ? this.proxy(callback) : callback, model = JSON.stringify(this.attributes());
+      $.ajax({
+        url: url,
+        type: method,
+        data: model,
+        dataType: 'JSON',
+        contentType: 'application/json charset=utf-8',
+        success: func,
+        error: func
+      });
     }
   });
   return Model;
