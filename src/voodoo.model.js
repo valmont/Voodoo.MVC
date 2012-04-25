@@ -56,6 +56,8 @@ Voodoo.Model = (function($, Voodoo) {
       name = arguments[0], attributes = 2 <= arguments.length ? Array.prototype.slice.call(arguments, 1) : [];
       this.className = name;
       this.records = {};
+      attributes.push('lastUpdated');
+      attributes.push('createdAt');
       this.attributes = attributes;
     },
     update: function(id, atts){
@@ -98,6 +100,7 @@ Voodoo.Model = (function($, Voodoo) {
         result[attr] = that[attr];
       });
       result.id = this.id;
+      result.lastUpdated = new Date();
       return result;
     },
     toJSON: function() {
@@ -141,6 +144,8 @@ Voodoo.Model = (function($, Voodoo) {
     },
     create: function() {
       if(!this.id) this.id = Math.guid();
+      if(!this.createdAt) this.createdAt = new Date();
+      if(!this.lastUpdated) this.lastUpdated = new Date();
       this.newRecord   = false;
       var records      = this.parent.records;
       records[this.id] = this.dup();
