@@ -1,7 +1,6 @@
 Voodoo.Model.Local = (function(Voodoo) {
   var Local = {
     canStore: (function(){
-      console.log('test');
       try {
         localStorage.setItem("mod", "mod");
         localStorage.removeItem("mod");

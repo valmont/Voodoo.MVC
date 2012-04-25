@@ -77,7 +77,6 @@ Voodoo.Route = (function(Voodoo, $){
     },
     
     change: function(e) {
-      console.log(e);
       var path = (this.history ? this.getPath() : this.getFragment());
       if (path == this.path) return;
       this.path = path;
