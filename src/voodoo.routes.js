@@ -24,6 +24,7 @@ Voodoo.Route = (function(Voodoo, $){
         $(window).bind("popstate", this.change);
       else
         $(window).bind("hashchange", this.change);
+        
       this.change();
     },
     
@@ -75,7 +76,8 @@ Voodoo.Route = (function(Voodoo, $){
       return this.getHash().replace(hashStrip, "");
     },
     
-    change: function(e){
+    change: function(e) {
+      console.log(e);
       var path = (this.history ? this.getPath() : this.getFragment());
       if (path == this.path) return;
       this.path = path;
