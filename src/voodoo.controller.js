@@ -23,7 +23,7 @@ Voodoo.Controller = Voodoo.App = (function(Voodoo, $) {
         methodName = this.events[key];
         match = key.match(this.eventSplitter);
         eventName = match[1], 
-        selector = match[2];
+        selector  = match[2];
         if (selector === '') {
           this.root.bind(eventName, this.proxy(this[methodName]));
         } else {

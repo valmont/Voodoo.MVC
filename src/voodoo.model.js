@@ -74,8 +74,9 @@ Voodoo.Model = (function($, Voodoo) {
     },
     cloneArray: function(array){
       var result = [];
-      for (var i=0; i < array.length; i++)
-        result.push(array[i].dup());
+      _utils.each(array, function(item) {
+        result.push(item.dup());
+      });
       return result;
     }
   });
@@ -92,11 +93,10 @@ Voodoo.Model = (function($, Voodoo) {
         this[name] = atts[name];
     },
     attributes: function(){
-      var result = {};
-      for (var i=0; i < this.parent.attributes.length; i++) {
-        var attr = this.parent.attributes[i];
-        result[attr] = this[attr];
-      }
+      var result = {}, atts = this.parent.attributes, that = this;
+      _utils.each(atts, function(attr) {
+        result[attr] = that[attr];
+      });
       result.id = this.id;
       return result;
     },
@@ -135,19 +135,19 @@ Voodoo.Model = (function($, Voodoo) {
       return Object.create(this);
     },
     dup: function(){
-      var result = this.parent.init(this.attributes());
+      var result       = this.parent.init(this.attributes());
       result.newRecord = this.newRecord;
       return result;
     },
     create: function() {
       if(!this.id) this.id = Math.guid();
-      this.newRecord = false;
-      var records = this.parent.records;
+      this.newRecord   = false;
+      var records      = this.parent.records;
       records[this.id] = this.dup();
       this.publish('create', records[this.id].clone());
     },
     update: function() {
-      var records = this.parent.records;
+      var records      = this.parent.records;
       records[this.id] = this.clone();
       records[this.id].load(this.attributes());
       this.publish('update', records[this.id].clone());
