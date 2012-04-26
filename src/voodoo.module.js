@@ -5,7 +5,8 @@ Voodoo.Module = Voodoo.App = (function(Voodoo, $) {
     created: function() {},
     prototype: {
       init: function() {},
-      initializer: function() {}
+      initializer: function() {},
+      initialized: function() {}
     },
     extend: function(obj){
       for(var key in obj)
@@ -51,6 +52,7 @@ Voodoo.Module = Voodoo.App = (function(Voodoo, $) {
       var initance = Object.create(this.prototype);
       initance.parent = this;
       initance.initializer.apply(initance, arguments);
+      initance.initialized.apply(initance, arguments);
       initance.init.apply(initance, arguments);
       return initance;
     }

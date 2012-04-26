@@ -1,8 +1,10 @@
-Voodoo.Controller = Voodoo.App = (function(Voodoo, $) {
+Voodoo.Controller = (function(Voodoo, $) {
   var Controller = Voodoo.Module.base(Voodoo.Events);
   Controller.include({
     eventSplitter: /^(\S+)\s*(.*)$/,
     initializer: function(options) {
+      console.log(this);
+      var that = this;
       if(this.root) this.root = $(this.root);
       if(options) {
         this.root = this.root || ((options.root) ? $(options.root) : $('body'));
@@ -16,6 +18,9 @@ Voodoo.Controller = Voodoo.App = (function(Voodoo, $) {
       if (this.events) this.delegateEvents();
       if (this.elements) this.bindElements();
       if (this.proxied) this.proxyAll.apply(this, this.proxied);
+    },
+    initialized: function() {
+      window.VoodooManager.add(this);
     },
     delegateEvents: function() {
       var key, methodName, match, eventName, selector;
@@ -38,5 +43,9 @@ Voodoo.Controller = Voodoo.App = (function(Voodoo, $) {
       }
     }
   });
+  Voodoo.App = Controller.base();
+  Voodoo.App.include({initialized: function() {
+    this.manager = window.VoodooManager = Voodoo.Obatala.init();
+  }});
   return Controller;
 })(Voodoo, jQuery);
