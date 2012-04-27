@@ -7,10 +7,12 @@ Voodoo.Obatala = (function(Voodoo, d, w) {
     },
     add: function(controller) {
       this.subscribe('changeState', function(current) {
-        if(controller == current)
+        if(controller == current) {
           controller.activate();
-        else
-          controller.deactivate();
+        }
+        else {
+          if(controller.isActive()) controller.deactivate();
+        }
       });
       controller.active = this.proxy(function() {
         if (controller.pageLoad) controller.pageLoad();
@@ -30,12 +32,12 @@ Voodoo.Obatala = (function(Voodoo, d, w) {
     
     activate: function() {
       d.title = this.title || w.location;
-      this.root.addClass("active");
+      this.root.fadeIn(500).addClass("active");
       return this;
     },
     
     deactivate: function(){
-      this.root.removeClass("active");
+      this.root.fadeOut(200).removeClass("active");
       return this;
     }
   });
