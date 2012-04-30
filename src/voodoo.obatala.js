@@ -11,22 +11,23 @@ Voodoo.Obatala = (function(Voodoo, d, w) {
           controller.activate();
         }
         else {
-          if(controller.isActive()) controller.deactivate();
+          if(controller.isActive()) { 
+            controller.deactivate();
+            if(controller.pageUnload) controller.pageUnload();
+          };
         }
       });
       controller.active = this.proxy(function() {
         if (controller.pageLoad) controller.pageLoad();
-        if(controller.upload) controller.pageUnload();
         this.publish('changeState', controller);
       });
     }
   });
   Voodoo.Controller.include({
-    active: function(callback){
+    active: function(callback) {
       (typeof callback == "function") ? this.subscribe("active", callback) : this.publish("active");
       return this;
     },
-    
     isActive: function(){
       return this.root.hasClass("active");
     },

@@ -25,7 +25,7 @@ Voodoo.Module = Voodoo.App = (function(Voodoo, $) {
       return this;
     },
     proxy: function(func) {
-      _utils.chkAarg.isNotUndefined(func);
+      _utils.chkArg.isNotUndefined(func);
       var localScope = this;
       return (function() {
         var args = _utils.makeArray(arguments);

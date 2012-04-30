@@ -3,7 +3,6 @@ Voodoo.Controller = (function(Voodoo, $) {
   Controller.include({
     eventSplitter: /^(\S+)\s*(.*)$/,
     initializer: function(options) {
-      console.log(this);
       var that = this;
       if(this.root) this.root = $(this.root);
       if(options) {

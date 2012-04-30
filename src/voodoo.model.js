@@ -167,11 +167,11 @@ Voodoo.Model = (function($, Voodoo) {
       return this.parent.publish.apply(this.parent, arguments);
     },
     post: function(url, callback) {
-      Voodoo.utils.chkAarg.isNotUndefined(url, 'Model.post');
+      Voodoo.utils.chkArg.isNotUndefined(url, 'Model.post');
       this.ajax(url, callback, 'post');
     },
     get: function(url, callback) {
-      Voodoo.utils.chkAarg.isNotUndefined(url, 'Model.post');
+      Voodoo.utils.chkArg.isNotUndefined(url, 'Model.post');
       this.ajax(url, callback, 'get');
     },
     ajax: function(url, callback, method) {

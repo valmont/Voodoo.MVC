@@ -1,28 +1,33 @@
 Voodoo.utils = (function() {
   var utils = {
-    chkAarg: {}
+    chkArg: {}
   },
   _undefined,
   throwError;
   throwError = function(msg) {
     throw msg;
   }
-  utils.chkAarg.isNotFalsy = function(obj, msg) {
+  utils.chkArg.isNotFalsy = function(obj, msg) {
     if(!obj)
       throwError((msg) ? 'Argument cannot be falsy : ' + msg : 'Argument cannot be falsy');
   };
 
-  utils.chkAarg.isNotUndefined = function(obj, msg) {
+  utils.chkArg.isNotUndefined = function(obj, msg) {
     if(obj === _undefined)
       throwError((msg) ? 'Argument cannot be undefined : ' + msg : 'Argument cannot be undefined');
   };
 
-  utils.chkAarg.isNotEmpty = function(obj, msg) {
+  utils.chkArg.isNotEmpty = function(obj, msg) {
     if(obj === '')
       throwError((msg) ? 'Argument cannot be empty : ' + msg : 'Argument cannot be empty');
   };
 
-  utils.chkAarg.isFunction = function(obj, msg) {
+  utils.chkArg.isNotUndefinedOrEmpty = function(obj, msg) {
+    this.isNotUndefined(obj,msg);
+    this.isNotEmpty(obj, msg);
+  };
+
+  utils.chkArg.isFunction = function(obj, msg) {
     if(typeof obj !== 'function')
       throwError((msg) ? 'Argument must be a function : ' + msg : 'Argument must be a function');
   };
@@ -32,9 +37,9 @@ Voodoo.utils = (function() {
   };
 
   utils.each = function(collection, func) {
-    this.chkAarg.isNotUndefined(collection);
-    this.chkAarg.isNotUndefined(func);
-    this.chkAarg.isFunction(func);
+    this.chkArg.isNotUndefined(collection);
+    this.chkArg.isNotUndefined(func);
+    this.chkArg.isFunction(func);
     var i = 0, l = collection.length;
     for(i; i < l; i++) {
       if(func(collection[i], i) === false) break;

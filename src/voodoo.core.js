@@ -31,6 +31,15 @@
           return -1;
       };
   };
+  $.fn.byData = function( type, value ) {
+    return this.filter( function() {
+        var $this = $( this );
+
+        return value != null ?
+            $this.data( type ) === value :
+            $this.data( type ) != null;
+    });
+  };
   if(!exports.Voodoo) {
     exports.Voodoo = Voodoo;
   }
