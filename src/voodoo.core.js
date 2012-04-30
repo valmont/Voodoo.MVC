@@ -1,6 +1,6 @@
 (function(exports, Object, Array, Math) {
   var Voodoo = {
-    version: '0.0.1',
+    version: '0.5.0',
     init: function() {
       addShims();
     }
