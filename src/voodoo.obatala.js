@@ -16,7 +16,7 @@ Voodoo.Obatala = (function(Voodoo, d, w) {
       });
       controller.active = this.proxy(function() {
         if (controller.pageLoad) controller.pageLoad();
-        if(controller.upload) controller.unload();
+        if(controller.upload) controller.pageUnload();
         this.publish('changeState', controller);
       });
     }
