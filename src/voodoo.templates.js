@@ -16,7 +16,7 @@ Voodoo.templates = (function($, _utils) {
           var template = $(this.get(key));
           template.byData('key').each(function() {
             var $this = $(this), modelKey = $this.data('key'), data = model[modelKey], t;
-            $this.html((typeof data === 'function') ? data() : data);
+            $this.html((typeof data === 'function') ? data.apply(model, arguments) : data);
           });
           return template;
         }
@@ -33,6 +33,5 @@ Voodoo.templates = (function($, _utils) {
       _utils.chkArg.isNotUndefinedOrEmpty(template, 'template markup');
       _templates[key] = template;
     }
-
     return templates;
 })(jQuery, Voodoo.utils);

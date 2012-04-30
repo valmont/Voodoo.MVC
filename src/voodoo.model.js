@@ -59,6 +59,10 @@ Voodoo.Model = (function($, Voodoo) {
       attributes.push('lastUpdated');
       attributes.push('createdAt');
       this.attributes = attributes;
+      if(this.templateUrl)
+        Voodoo.templates.add(this.className, this.templateUrl);
+      else
+        Voodoo.templates.add(this.className);
     },
     update: function(id, atts){
       this.find(id).updateAttributes(atts);
@@ -162,6 +166,10 @@ Voodoo.Model = (function($, Voodoo) {
         if ( record && this.eql(record) )
           callback.apply(this, arguments);
       }));
+    },
+    template: function() {
+      var name = this.parent.className, model = this;
+      return Voodoo.templates.render(name, model);
     },
     publish: function(){
       return this.parent.publish.apply(this.parent, arguments);
