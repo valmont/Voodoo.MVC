@@ -15,8 +15,9 @@ Voodoo.templates = (function($, _utils) {
           _utils.chkArg.isNotUndefined(model, 'template model');
           var template = $(this.get(key));
           template.byData('key').each(function() {
-            var $this = $(this), modelKey = $this.data('key'), data = model[modelKey], t;
+            var $this = $(this), modelKey = $this.data('key'), data = model[modelKey], conditions = $this.byData('condition');
             $this.html((typeof data === 'function') ? data.apply(model, arguments) : data);
+            console.log($this.attr('data-condition'));
           });
           return template;
         }
