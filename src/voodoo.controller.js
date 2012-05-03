@@ -38,7 +38,7 @@ Voodoo.Controller = (function(Voodoo, $) {
     bindElements: function() {
       var key;
       for(key in this.elements) {
-        this[this.elements[key]] = $(key);
+        this[this.elements[key]] = $(this.root + ' ' + key);
       }
     }
   });
