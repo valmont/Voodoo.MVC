@@ -19,7 +19,8 @@ Voodoo.Controller = (function(Voodoo, $) {
       if (this.proxied) this.proxyAll.apply(this, this.proxied);
     },
     initialized: function() {
-      window.VoodooManager.add(this);
+      console.log(this);
+      if(this.parent.manage) window.VoodooManager.add(this);
     },
     delegateEvents: function() {
       var key, methodName, match, eventName, selector;
